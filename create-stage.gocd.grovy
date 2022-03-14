@@ -9,7 +9,7 @@ GoCD.script {
                 materials {
                     git {
                         branch = 'master'
-                        url = 'git@git.msv.mckinsey.com:price/periscope-environments.git'
+                        url = 'git@github.com:twnehanegi/java.git'
                         blacklist = ['**/*']
                     }
                 }
