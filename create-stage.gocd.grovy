@@ -1,0 +1,33 @@
+def allEnvs = ['qa9-tenant5',
+               'qa10-tenant5'];
+
+GoCD.script {
+    pipelines {
+        allEnvs.each {  env ->
+            pipeline("$env-borrowed-environment") {
+                group = 'borrowed-environment-tenant'
+                materials {
+                    git {
+                        branch = 'master'
+                        url = 'git@git.msv.mckinsey.com:price/periscope-environments.git'
+                        blacklist = ['**/*']
+                    }
+                }
+                stages {
+                    stage('create-environment') {
+                        fetchMaterials = true
+                        jobs {
+                            job('create-environment') {
+                                tasks {
+                                    exec {
+                                        commandLine = ["bash", "-c" , "./update_config.sh"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
